@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Projeto de Interface{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'music/style.css' %}"/>
+
+<body>
+<nav class="navbar  navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'music:index' %}">Projeto de interface</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Itens do menu de navegação -->
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'music:index' %}"><span class="material-icons">&#xe019;</span>Álbuns</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'music:index' %}"><span class="material-icons">&#xe405;</span>Músicas</a>
+            </li>
+        </ul>
+
+        <!-- Barra de pesquisa -->
+        <form class="form-inline my-2 my-lg-0" method="get" action="#">
+            <input class="form-control mr-sm-2" type="search" placeholder="Procurar" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Procurar</button>
+        </form>
+
+        <!-- Itens a direita -->
+        <div class=" navbar-right">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'music:index' %}"><span class="material-icons">&#xe145;</span>Adicionar Álbum</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'music:index' %}"><span class="material-icons"> &#xe879;&nbsp;</span>Logout</a>
+                    </li>
+                </ul>
+        </div>
+    </div>
+
+</nav>
+{% block body %}
+{% endblock %}
+
+
+</body>
+</html>

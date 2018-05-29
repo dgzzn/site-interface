@@ -1,0 +1,41 @@
+{% extends 'music/base.html' %}
+{% block title %}{{ album.titulo }} - {{ album.artista }}{% endblock %}
+</head>
+<body>
+{% block body %}
+    <div class="container-fluid">
+        <br>
+        <div>
+            <img src="{{ album.capa }}" class="rounded" alt="capa" width="250" height="250">
+        </div>
+        <div>
+            <h1 class="font-weight-bold">{{ album.titulo }}</h1>
+            <h2 class="font-weight-bold">{{ album.artista }}</h2>
+        </div>
+        <br><br>
+
+        {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
+        <div class="container-fluid">
+            {% csrf_token %}
+            {% for musica in album.musica_set.all %}
+                {{ musica.nome }}
+                {% if musica.favorita %}
+                    <img src="http://www.greensoul.de/wp-content/uploads/2015/02/2.-Platz-Stern.png"/>
+                {% endif %}
+                <br>
+
+            {% endfor %}
+
+            <br>
+        </div>
+    </div>
+{% endblock %}
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
