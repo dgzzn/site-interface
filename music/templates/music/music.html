@@ -1,22 +1,116 @@
 {% extends 'music/base.html' %}
-</head>
-<body>
-
-
-
 
 {% block body %}
-    <ul>
-        <h2>Lista de álbuns:</h2>
-        {% for album in object_list %}
-        <li><a href="{% url 'music:detalhe' album.id %}">{{album.titulo}} - {{ album.artista }}</a></li>
-        {% endfor %}
-    </ul>
+<div class="container-fluid">
+        <div class="row">
+        <div class="col-sm-12">
+            <h5 style="float:right">Logado como: {{ user.username }}</h5>
+        </div>
+        {% if object_list %}
+            {% for album in object_list %}
+                <div class="col-sm-4 col-lg-2">
+                    <div class="thumbnail">
+                        <a href="{% url 'music:detalhe' album.id %}">
+                            <img class ="card-img-top" src="{{ album.capa.url }}" width="260px" height="260px">
+                        </a>
+                        <div class="caption">
+                            <div style="height: 95px"> <h3>{{ album.titulo }}</h3></div>
+                            <!--<h2>{{ album.titulo }}</h2>-->
+                            <div style="height: 30px"><h4>{{ album.artista }}</h4></div>
+                            <!-- Ver detalhes -->
+                            <a href="{% url 'music:detalhe' album.id %}" class="btn btn-primary btn-sm" role="button">Ver detalhes</a>
+
+                            <!-- Deletar album -->
+                            <form action="{% url 'music:deletar-album' album.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                                <input type="hidden" name="album_id" value="{{ album.id }}" />
+                                <button type="submit" class="btn btn-default btn-sm">
+                                    <span class="material-icons"> 	&#xe872;</span>
+                                </button>
+                            </form>
+
+                            <!-- Favoritar álbum -->
+                            <a href="#" class="btn btn-default btn-sm btn-favorite">
+                                <span class="material-icons" {% if album.favorito %}active{% endif %}>&#xe87d;</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+    {% endfor %}
+
+    {% else %}
+        <div class="col-sm-12">
+            <br>
+            <a href="#">
+                <button type="button" class="btn btn-success">
+                    <span class="material-icons"> &#xf067;</span>Adicionar álbum
+                </button>
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Se o usuário procurar e tiver músicas -->
+    {% if musicas %}
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Músicas</h3>
+            </div>
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Artista</th>
+                                    <th>Arquivo de áudio</th>
+                                    <th>Álbum</th>
+                                    <th>Favorita</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for musica in musica %}
+                                    <tr>
+                                        <td>{{ musica.nome }}</td>
+                                        <td class="max-height=50px">{{ musica.album.artista }}</td>
+                                        <td>
+                                            <a target="_blank" href="{{ musica.audio_file.url }}">
+                                                <button type="button" class="btn btn-success btn-xs">
+                                                    <span class="material-icons">&#xe037;</span>Play
+                                                </button>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'musica:detalhe' musica.album.id %}">
+                                                <img src="{{ musica.album.capa }}" class="img-responsive" style="width:20px; float: left; margin-right:10px;"/>
+                                            </a>
+                                            <a href="{% url 'music:favorita' musica.id %}" >
+                                                {{ musica.album.titulo }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'music:favorita' musica.id %}" class="btn-favorite">
+                                                <span class="material-icons">&#xf005;</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    {% endif %}
+</div>
+
 {% endblock %}
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
-</body>
-</html>

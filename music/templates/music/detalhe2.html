@@ -1,0 +1,76 @@
+{% extends 'music/base.html' %}
+{% block title %}{{ album.titulo }} - {{ album.artista }}{% endblock %}
+
+{% block body %}
+    <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4 col-md-3">
+                <div class="card" style="width: 300px">
+                    <img class="card-img-top" src="{{ album.capa.url }}" alt="Album cover" width="260px" height="260px">
+                    <div class="card-body">
+                        <h3 class="card-title"> {{ album.titulo }}</h3>
+                        <h6 class="card-text">{{ album.artista }}</h6>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-sm-8 col-md-9" style=float:left>
+                <ul class="nav nav-pills">
+                    <li role="presentation"><a href="#"  class="btn btn-primary btn-xs">Adicionar música</a></li>
+                </ul>
+            <br><br><div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3>Músicas</h3>
+
+                        {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                        {% endif %}
+
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Favorito</th>
+                                    <th>Tocar</th>
+                                    <th>Excluir</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for musica in album.musica_set.all %}
+                                <tr>
+                                    <td>{{ musica.nome }}</td>
+                                    <td>
+                                        <a href="#" class="btn-favorite"><span class="material-icons" {% if musica.favorita %}active{% endif %}>&#xf005;</span></a>
+                                    </td>
+                                    <td>
+                                        <a target="_blank" href="{{ musica.audio_file.url }}">
+                                            <button type="button" class="btn btn-success btn-xs">
+                                                <span class="material-icons">&#xe037;</span>
+                                            </button>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <form action="#" method="post" style="display: inline;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="musica_id" value="{{ musica.id }}"/>
+                                            <button type="submit" class="btn btn-danger btn-xs">
+                                                <span class="material-icons">&#xe872;</span>Excluir
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+{% endblock %}

@@ -1,16 +1,20 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Album(models.Model):
     artista = models.CharField(max_length=255, null=False)
     titulo = models.CharField(max_length=255, null=False)
     genero = models.CharField(max_length=255, null=False)
-    capa = models.CharField(max_length=255)
+    capa = models.FileField()
     ano = models.IntegerField()
     favorito = models.BooleanField(default=False)
 
+    def get_absolute_url(self):
+        return reverse('music:detalhe', kwargs={'pk': self.pk})
+
     def __str__(self):
-        return '%s - %s (%i)'%(self.titulo, self.artista, self.ano)
+        return '%s - %s (%i)' % (self.titulo, self.artista, self.ano)
 
 
 class Musica(models.Model):
@@ -19,6 +23,6 @@ class Musica(models.Model):
     favorita = models.BooleanField(default=False)
 
     def __str__(self):
-        return '%s'%self.nome
+        return '%s' % self.nome
 
 
