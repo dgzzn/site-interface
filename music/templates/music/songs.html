@@ -1,0 +1,63 @@
+
+{% extends 'music/base.html' %}
+{% block title %}Todas músicas{% endblock %}
+{% block songs_active %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid songs-container">
+
+    <div class="row">
+        <div class="col-sm-12">
+
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Música</th>
+                                <th>Artista</th>
+                                <th>Arquivo de áudio</th>
+                                <th>Album</th>
+                                <!--<th>Favorita</th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for musica in song_list %}
+                                <tr>
+                                    <td>{{ musica.nome }}</td>
+                                    <td>{{ musica.album.artista }}</td>
+                                    <td>
+                                        <a target="_blank" href="{{ musica.arquivo_audio.url }}">
+                                            <audio controls>
+                                            <source src="{{ musica.arquivo_musica.url }}" type="audio/mp3"></audio>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'music:detalhe' musica.album.id %}">
+                                            <img src="{{ musica.album.capa.url }}" class="img-responsive" style="width: 20px; float: left; margin-right: 10px;" />
+                                        </a>
+                                        <a href="{% url 'music:detalhe' musica.album.id %}">{{ musica.album.titulo }}</a>
+                                    </td>
+                                    <!--<td>
+                                        <a href="{% url 'music:favorita' musica.id %}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if musica.favorita %}active{% endif %}"></span></a>
+                                    </td>-->
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

@@ -4,3 +4,12 @@ body{
 .navbar-brand{
     font-family: 'Script MT Bold';
 }
+
+.fa fa-heart{
+    color: #CCCCCC;
+    font-size: 16px;
+}
+
+.fa fa-heart.active {
+    color: #FDB230;
+}

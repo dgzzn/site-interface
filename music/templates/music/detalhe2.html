@@ -1,23 +1,31 @@
 {% extends 'music/base.html' %}
 {% block title %}{{ album.titulo }} - {{ album.artista }}{% endblock %}
+{% block add_albums %}active{% endblock %}
 
 {% block body %}
     <br>
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-4 col-md-3">
-                <div class="card" style="width: 300px">
-                    <img class="card-img-top" src="{{ album.capa.url }}" alt="Album cover" width="260px" height="260px">
+                <div class="card" >
+                    <div style="padding-left: 70px; padding-top: 10px; border:1px">
+                         <img class="thumbnail img-responsive" src="{{ album.capa.url }}" alt="Album cover" width="250px" height="250px">
+                    </div>
+
                     <div class="card-body">
-                        <h3 class="card-title"> {{ album.titulo }}</h3>
-                        <h6 class="card-text">{{ album.artista }}</h6>
+                        <h3 class="card-title"> {{ album.titulo }} <small>({{ album.ano }})</small></h3>
+                        <h6 class="card-text">{{ album.artista }}</h6><small>{{ album.genero }}</small>
                     </div>
                 </div>
 
             </div>
             <div class="col-sm-8 col-md-9" style=float:left>
-                <ul class="nav nav-pills">
-                    <li role="presentation"><a href="#"  class="btn btn-primary btn-xs">Adicionar música</a></li>
+
+            <ul class="nav nav-pills">
+                    {% csrf_token %}
+                    <li role="presentation"><a href="{% url 'music:add-musica' album.id%}"  class="btn btn-success btn-xs">Adicionar música</a></li>&nbsp;&nbsp;
+                    <li role="presentation"><a href="{% url 'music:update-album' album.id %}"  class="btn btn-primary btn-xs">Alterar Álbum</a></li>
+
                 </ul>
             <br><br><div class="panel panel-default">
                     <div class="panel-body">
@@ -31,34 +39,45 @@
                             <thead class="thead-dark">
                                 <tr>
                                     <th>Nome</th>
-                                    <th>Favorito</th>
+                                    <!--<th>Favorito</th>-->
                                     <th>Tocar</th>
+                                    {% if user.is_authenticated %}
                                     <th>Excluir</th>
+                                    {% endif %}
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for musica in album.musica_set.all %}
                                 <tr>
                                     <td>{{ musica.nome }}</td>
+                                    <!--<td>
+                                        <a href="{% url 'music:favorita' musica.id %}" class="btn-favorite active"><span {% if musica.favorita %}active{% endif %}><i class="fa fa-heart-o" ></i></span></a>
+                                    </td> -->
                                     <td>
-                                        <a href="#" class="btn-favorite"><span class="material-icons" {% if musica.favorita %}active{% endif %}>&#xf005;</span></a>
-                                    </td>
-                                    <td>
-                                        <a target="_blank" href="{{ musica.audio_file.url }}">
-                                            <button type="button" class="btn btn-success btn-xs">
-                                                <span class="material-icons">&#xe037;</span>
-                                            </button>
+
+                                        <a target="_blank" href="{{ musica.arquivo_musica.url }}">
+
+
+
+                                                <audio controls>
+                                            <source src="{{ musica.arquivo_musica.url }}" type="audio/mp3"></audio>
+
+
+
                                         </a>
+
                                     </td>
+                                {% if user.is_authenticated %}
                                     <td>
-                                        <form action="#" method="post" style="display: inline;">
+                                        <form action="{% url 'music:deletar-musica' album.id musica.id %} " method="post" style="display: inline;">
                                             {% csrf_token %}
                                             <input type="hidden" name="musica_id" value="{{ musica.id }}"/>
-                                            <button type="submit" class="btn btn-danger btn-xs">
+                                            <button type="submit" class="btn btn-danger btn-xs" onclick="confirm('Confirmar exclusão?')">
                                                 <span class="material-icons">&#xe872;</span>Excluir
                                             </button>
                                         </form>
                                     </td>
+                                {% endif %}
                                 </tr>
                             {% endfor %}
                             </tbody>

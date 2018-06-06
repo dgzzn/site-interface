@@ -1,12 +1,20 @@
 {% extends 'music/base.html' %}
 {% block title %} Adicionar novo álbum{% endblock %}
-{% block albums_active %}active{% endblock %}
+{% block add_albums %}active{% endblock %}
 
 {% block body %}
 
     <div class="container-fluid">
-        <div class="row card text-dark">
-            <div class="col-sm-12 col-md-7">
+
+        <div class="card text-dark">
+            <div class="col-sm-6 col-md-5 col-md-offset-6">
+                <div class="card">
+                    <div class="card-body">
+                        * Para uma melhor qualidade, utilize uma imagem para a capa de no máximo 400x400 para a capa
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-7">
                 <div class=""><br>
                     <h3>Adicionar álbum</h3>
                     <h6><i>*preencha todos os campos</i></h6>
@@ -26,7 +34,9 @@
                     </div>
                 </div>
             </div>
+
         </div>
+
     </div>
 
 

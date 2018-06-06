@@ -1,0 +1,33 @@
+{% extends 'music/base.html' %}
+{% block title %}Login{% endblock %}
+{% block body %}
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <h2>Login</h2>
+                <hr>
+                <form class="form-horizontal" role="form" method="post" action="{% url 'music:login' %}"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <button type="submit" class="form-group btn btn-success"><i class="fa fa-sign-in"></i> Login
+                        </button>
+                        <a class="btn btn-link" href="{% url 'music:registro' %}">Não é cadastrado? Clique aqui.</a>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-6"></div>
+
+
+    </div>
+{% endblock %}
